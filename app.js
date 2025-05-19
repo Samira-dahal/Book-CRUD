@@ -1,15 +1,30 @@
 const express = require('express')
-const app = express()
-require("./database/connection.js")
+const { books } = require('./database/connection')
 
-app.get('/books', (req, res) => {
+
+const app = express()
+require("./database/connection")
+app.use(express.json())
+
+app.get('/books',async (req, res) => {
+  const datas = await books.findAll()
   res.json({
 
-    message : "Books fetched successfully"
+    message : "Books fetched successfully",
+    data : datas
   })
 })
 
-app.post('/books', (req, res) => {
+app.post('/books',async (req, res) => {
+  const {bookName,bookAuthor, isbn, bookPrice, bookGenre} = req.body
+ await books.create({
+    bookName,
+    bookAuthor,
+    isbn,
+    bookPrice,
+    bookGenre
+  })
+
   res.json({
 
     message : "Book created successfully"
