@@ -19,11 +19,10 @@ sequelize.authenticate()
 
 
 db.books = require("./models/book.model")(sequelize, DataTypes)
-db.users = require("./models/user.model")(sequelize, DataTypes)
-db.categories = require("./models/categories.model")(sequelize, DataTypes)
 
 
-sequelize.sync({ alter: false })
+
+sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database & tables created!');
     })

@@ -1,49 +1,23 @@
 const express = require('express')
-const { books } = require('./database/connection')
+const bookRoute = require("./routes/bookRoute")
+const cors = require ('cors')
+
+
 
 
 const app = express()
 require("./database/connection")
+
+app.use(cors({
+  origin : "http://localhost:5173"
+}
+))
+
 app.use(express.json())
 
-app.get('/books',async (req, res) => {
-  const datas = await books.findAll()
-  res.json({
+app.use("/api/books", bookRoute)
 
-    message : "Books fetched successfully",
-    data : datas
-  })
-})
 
-app.post('/books',async (req, res) => {
-  const {bookName,bookAuthor, isbn, bookPrice, bookGenre} = req.body
- await books.create({
-    bookName,
-    bookAuthor,
-    isbn,
-    bookPrice,
-    bookGenre
-  })
-
-  res.json({
-
-    message : "Book created successfully"
-  })
-})
-
-app.delete('/books/:id', (req, res) => {
-  res.json({
-
-    message : "Book deleted successfully"
-  })
-})
-
-app.patch('/books/:id', (req, res) => {
-  res.json({
-
-    message : "Book updated successfully"
-  })
-})
 
 
 
